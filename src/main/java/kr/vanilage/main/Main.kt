@@ -7,6 +7,7 @@ import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.time.Duration
 import java.util.Random
@@ -39,7 +40,7 @@ class Main : JavaPlugin() {
         }
 
         fun randomMission() {
-            nowMission = rd.nextInt(20)
+            nowMission = rd.nextInt(missions.size)
             for (i in Bukkit.getOnlinePlayers()) {
                 i.showTitle(Title.title(Component.text(missionName[nowMission]!!, NamedTextColor.RED), Component.text("최대한 빨리 미션을 수행하세요!", NamedTextColor.YELLOW), Title.Times.times(Duration.ofMillis(100), Duration.ofMillis(1000), Duration.ofMillis(100))))
                 if (!score.keys.contains(i.name)) {
@@ -48,6 +49,8 @@ class Main : JavaPlugin() {
             }
             missions[nowMission]!!.run()
         }
+
+        lateinit var id23Target : Player
     }
 
     override fun onEnable() {
@@ -75,6 +78,14 @@ class Main : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(UseDye(), this)
         Bukkit.getPluginManager().registerEvents(WriteSign(), this)
 
+        // 10/07/2023 업데이트
+
+        Bukkit.getPluginManager().registerEvents(Chat(), this)
+        Bukkit.getPluginManager().registerEvents(EnchantPickaxe(), this)
+        Bukkit.getPluginManager().registerEvents(EnchantSword(), this)
+        Bukkit.getPluginManager().registerEvents(KillPlayer(), this)
+        Bukkit.getPluginManager().registerEvents(MakeSnowGolem(), this)
+
         registerMission(EatBread(), 0, "빵을 먹으세요!")
         registerMission(PlaceBlock(), 1, "블럭을 설치하세요!")
         registerMission(HeldItem(), 2, "아이템을 드세요!")
@@ -90,11 +101,19 @@ class Main : JavaPlugin() {
         registerMission(NetherPortal(), 12, "네더 포탈을 통과하세요!")
         registerMission(LightFire(), 13, "불을 피우세요!")
         registerMission(Death(), 14, "죽으세요!")
-        registerMission(WriteSign(), 15, "표지판에 '메이커찬양'이라고 적으세요!")
+        registerMission(WriteSign(), 15, "표지판에 'asdf'이라고 적으세요!")
         registerMission(Enchant(), 16, "마법 부여대를 사용하세요!")
         registerMission(PlaceTorch(), 17, "횃불을 설치하세요!")
         registerMission(UseDye(), 18, "양을 염색하세요!")
         registerMission(Shear(), 19, "양털을 깎으세요!")
+
+        // 10/07/2023 업데이트
+
+        registerMission(Chat(), 24, "채팅하세요!")
+        registerMission(EnchantPickaxe(), 20, "곡괭이에 마법을 부여하세요!")
+        registerMission(EnchantSword(), 21, "검에 마법을 부여하세요!")
+        registerMission(KillPlayer(), 23, "채팅에 나오는 플레이어를 죽이세요!")
+        registerMission(MakeSnowGolem(), 22, "눈 골렘을 만드세요!")
     }
 
     fun registerMission(mission : Mission, id : Int, name : String) {

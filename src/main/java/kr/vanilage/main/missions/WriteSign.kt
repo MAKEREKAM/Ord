@@ -24,7 +24,7 @@ class WriteSign : Listener, Mission {
     fun onWriteSign(e : SignChangeEvent) {
         if (Main.nowMission == 15) {
             for (i in e.lines) {
-                if (i.contains("메이커찬양")) {
+                if (i.contains("asdf")) {
                     Main.score[e.player.name] = Main.score[e.player.name]!! + 1
                     if (Main.rd.nextInt(20) == 0) {
                         Main.broadCastScore()
